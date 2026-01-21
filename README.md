@@ -2,6 +2,8 @@
 
 A web application for ITU students to browse course schedules, plan their semester, and export their weekly plan.
 
+[**Live Here**](https://ituscheduler.omerdikyol.com/)
+
 ## Features
 
 - **Live Data**: Fetches real-time course data from ITU OBS (sis.itu.edu.tr).
