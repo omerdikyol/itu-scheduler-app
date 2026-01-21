@@ -36,6 +36,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
     const [instructorFilterMode, setInstructorFilterMode] = useState('none');
     const [instructorFilters, setInstructorFilters] = useState<string[]>([]);
 
+    // Mobile Collapse State
+    const [isCollapsed, setIsCollapsed] = useState(false);
+
     // Fetch Branches on Mount/Level Change
     useEffect(() => {
         setIsLoadingBranches(true);
@@ -107,13 +110,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
         });
     }, [courses, searchTerm, dayFilters, instructorFilterMode, instructorFilters]);
 
+    // Auto-collapse on mobile when course is selected (optional, or just default to open)
+    // For now, we'll just add a toggle button on mobile.
 
     return (
-        <aside className="w-96 bg-white border-r border-gray-200 flex flex-col z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+        <aside className={cn(
+            "bg-white border-r border-gray-200 flex flex-col z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)] transition-all duration-300",
+            "w-full md:w-96 shrink-0",
+            // On mobile, if collapsed, we might want to hide most of it or show a minimised version.
+            // But usually for "Adding courses" phase, we need it. 
+            // Let's allow it to take screen space on mobile but scroll independently if needed within the flow, 
+            // BUT since we are now in a flex-col layout, the sidebar is ON TOP of the calendar.
+            // We should probably limit its max-height on mobile so the calendar is reachable.
+            "max-h-[50vh] md:max-h-full"
+        )}>
             {/* API Fetcher Section */}
             <div className="p-4 bg-indigo-50/50 border-b border-indigo-100 flex flex-col gap-2">
-                <div className="text-xs font-semibold text-indigo-900 uppercase tracking-wide">Add Courses</div>
-                <div className="flex gap-2">
+                <div className="flex items-center justify-between">
+                    <div className="text-xs font-semibold text-indigo-900 uppercase tracking-wide">Add Courses</div>
+                    {/* Mobile Collapse Toggle */}
+                    <button
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        className="md:hidden p-1 text-indigo-600 hover:bg-indigo-100 rounded"
+                    >
+                        {isCollapsed ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
+                    </button>
+                </div>
+
+                <div className={cn("flex gap-2 transition-all duration-300 overflow-hidden", isCollapsed ? "h-0 py-0 opacity-0" : "h-auto opacity-100")}>
                     {/* Level Toggle */}
                     <div className="flex bg-gray-100 p-1 rounded-lg shrink-0">
                         <button
@@ -163,7 +187,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
 
             {/* Search & Filter Controls */}
-            <div className="p-4 border-b border-gray-100 bg-gray-50/50 flex flex-col gap-3">
+            <div className={cn("p-4 border-b border-gray-100 bg-gray-50/50 flex flex-col gap-3 transition-all", isCollapsed ? "hidden md:flex" : "flex")}>
                 <div className="relative">
                     <input
                         type="text"
@@ -253,7 +277,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
 
             {/* Course List header with clear option */}
-            <div className="px-4 py-2 bg-gray-50 border-b border-gray-100 flex justify-between items-center">
+            <div className={cn("px-4 py-2 bg-gray-50 border-b border-gray-100 flex justify-between items-center", isCollapsed ? "hidden md:flex" : "flex")}>
                 <span className="text-xs font-semibold text-gray-500">{filteredCourses.length} loaded</span>
                 {courses.length > 0 && (
                     <button onClick={onClearAll} className="text-[10px] text-red-500 hover:text-red-700 hover:underline">
@@ -263,7 +287,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </div>
 
             {/* Course List */}
-            <div className="flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar">
+            <div className={cn("flex-1 overflow-y-auto p-2 space-y-1 custom-scrollbar", isCollapsed ? "hidden md:block" : "block")}>
                 {filteredCourses.length === 0 ? (
                     <div className="text-center py-10 text-gray-400 flex flex-col items-center gap-2">
                         <Search size={24} className="opacity-20" />

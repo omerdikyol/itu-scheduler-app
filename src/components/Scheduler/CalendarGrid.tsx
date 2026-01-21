@@ -19,8 +19,8 @@ export const CalendarGrid: React.FC<CalendarGridProps> = ({
     onEditNote
 }) => {
     return (
-        <main className="flex-1 overflow-y-auto relative bg-white custom-scrollbar">
-            <div className="min-w-[800px] p-8 pb-20">
+        <main className="flex-1 overflow-y-auto overflow-x-auto relative bg-white custom-scrollbar">
+            <div className="min-w-[800px] p-4 md:p-8 pb-20">
                 {/* Calendar Header */}
                 <div className="grid grid-cols-5 mb-4 sticky top-0 bg-white z-20 pb-2 border-b border-gray-100 ml-14">
                     {dayNames.map((day) => (
