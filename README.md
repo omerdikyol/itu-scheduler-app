@@ -1,41 +1,39 @@
-# ITU Course Scheduler
+# ITU course scheduler
 
-A web application for ITU students to browse course schedules, plan their semester, and export their weekly plan.
+Browse ITU course sections and arrange a weekly schedule before registration. The calendar displays overlapping courses, highlights mandatory courses, and keeps selections and notes in your browser.
 
-[**Live Here**](https://ituscheduler.omerdikyol.com/)
+[Open the live app](https://ituscheduler.omerdikyol.com/)
 
-## Features
+## Use the planner
 
-- **Live Data**: Fetches real-time course data from ITU OBS (sis.itu.edu.tr).
-- **Interactive Calendar**:
-  - Visual time blocks for courses.
-  - Conflict detection (red highlights).
-  - Mandatory course highlighting (orange).
-  - Middle-click to remove courses.
-- **Persistence**: automatically saves your selected courses and notes to your browser.
-- **Export/Import**:
-  - Export your schedule as a JSON file.
-  - Import previously saved JSON schedules.
-- **Course Notes**: Add personal notes to any course directly on the calendar.
+- Browse course sections fetched from ITU’s course information pages.
+- Add courses to the weekly calendar and inspect conflicting time blocks.
+- Attach notes to courses; middle-click a course to remove it.
+- Export a plan as JSON and import it later or in another browser.
 
-## Tech Stack
+The app helps plan a schedule. It does not register you for classes. Course fetching depends on the upstream pages and their current format; confirm final details with ITU.
 
-- **Next.js 14** (App Router)
-- **React**
-- **TailwindCSS**
-- **Lucide Icons**
+## Run locally
 
-## Getting Started
+The checked-in manifest uses **Next.js 16**, React, TypeScript, and Tailwind CSS. Use Node.js 20.9 or newer, following the [Next.js system requirements](https://nextjs.org/docs/app/getting-started/installation#system-requirements).
 
-1.  **Install dependencies**:
-    ```bash
-    npm install
-    ```
+```sh
+git clone https://github.com/omerdikyol/itu-scheduler-app.git
+cd itu-scheduler-app
+npm install
+npm run dev
+```
 
-2.  **Run the development server**:
-    ```bash
-    npm run dev
-    ```
+Open [localhost:3000](http://localhost:3000).
 
-3.  **Open the app**:
-    Navigate to [http://localhost:3000](http://localhost:3000)
+```sh
+npm run build
+npm run lint
+```
+
+## Code map
+
+- [Course API routes](src/app/api/courses): fetching and parsing upstream course data.
+- [Scheduler](src/components/Scheduler/index.tsx): planner state and interactions.
+- [CalendarGrid](src/components/Scheduler/CalendarGrid.tsx): weekly calendar UI.
+- [Scheduler utilities](src/components/Scheduler/scheduler.utils.ts): time parsing and overlapping-block layout.
