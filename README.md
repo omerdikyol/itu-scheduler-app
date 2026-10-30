@@ -1,4 +1,10 @@
-# ITU course scheduler
+<h1 align="center">ITU course scheduler</h1>
+
+<p align="center">
+  <img alt="Next.js: 16" src="https://img.shields.io/badge/Next.js-16-black">
+  <img alt="language: TypeScript" src="https://img.shields.io/badge/language-TypeScript-3178C6">
+  <img alt="styling: Tailwind CSS" src="https://img.shields.io/badge/styling-Tailwind%20CSS-06B6D4">
+</p>
 
 Browse ITU course sections and arrange a weekly schedule before registration. The calendar displays overlapping courses, highlights mandatory courses, and keeps selections and notes in your browser.
 
